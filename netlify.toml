@@ -1,6 +1,2 @@
 [build]
   functions = "netlify-functions"  # Вказуємо на папку з функціями
-
-[[plugins]]
-  package = "@netlify/plugin-nextjs" # Якщо ви використовуєте Next.js або інший фреймворк
-
