@@ -8,7 +8,7 @@ function App() {
 
   return (
     <>
-      <h1>Vite + React</h1>
+      <h1>TextUAria: Text-based games platform</h1>
       <div className="card">
         <button onClick={() => setCount((count) => count + 10)}>
           count is {count}
