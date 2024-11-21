@@ -1,27 +1,25 @@
-const { ApolloServer, gql } = require('apollo-server-lambda');
+const { ApolloServer, gql } = require("apollo-server-lambda");
 
-// 1. Визначте вашу схему GraphQL
+// Define GraphQL schema
 const typeDefs = gql`
   type Query {
     hello: String
   }
 `;
 
-// 2. Створіть резолвери для вашої схеми
 const resolvers = {
   Query: {
-    hello: () => 'Hello from Netlify Functions!',
+    hello: () => "Hello world!",
   },
 };
 
-// 3. Ініціалізуйте Apollo Server
+// Create Apollo Server instance
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  playground: true, // Включити Playground для тестування запитів
-  introspection: true, // Дозволити інтерпретацію схеми
+  playground: true, // Enable GraphQL Playground for testing
+  introspection: true, // Allow introspection
 });
 
-// 4. Створіть функцію для обробки запитів
+// Use Apollo's handler to handle Lambda requests
 exports.handler = server.createHandler();
-
