@@ -12,7 +12,7 @@ const resolvers = {
     greetings: (parent, args, context) => {
       return `Hello, ${args.name}!`;
     },
-    hwoiam: () => {
+    whoiam: () => {
       return "I am Vlad";
     },
   },
