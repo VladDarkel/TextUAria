@@ -1,4 +1,0 @@
-[build]
-  functions = "netlify-functions"  # Directory containing your Lambda functions
-  publish = "dist"                # Directory to publish static files (your React app)
-
