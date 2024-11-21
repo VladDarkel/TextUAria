@@ -13,6 +13,7 @@ function App() {
         <button onClick={() => setCount((count) => count + 10)}>
           count is {count}
         </button>
+      </div>
     </>
   );
 }
