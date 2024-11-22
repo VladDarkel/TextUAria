@@ -12,8 +12,10 @@
   "dependencies": {
     "@neo4j/graphql": "^6.1.0",
     "@neo4j/graphql-plugin-auth": "^2.2.0",
+    "ably": "^2.5.0",
     "apollo-server-lambda": "^3.13.0",
     "graphql": "^16.9.0",
+    "jamsocket": "^0.10.7",
     "neo4j-driver": "^5.26.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"

@@ -3,19 +3,55 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 
-function App() {
-  const [count, setCount] = useState(0);
+import * as Ably from "ably";
+import {
+  AblyProvider,
+  ChannelProvider,
+  useChannel,
+  useConnectionStateListener,
+} from "ably/react";
+import "./index.css";
 
+const client = new Ably.Realtime({
+  key: process.env.ABLY_API_KEY,
+});
+
+export default function App() {
   return (
-    <>
-      <h1>TextUAria: Text-based games platform</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 10)}>
-          count is {count}
-        </button>
-      </div>
-    </>
+    <AblyProvider client={client}>
+      <ChannelProvider channelName="get-started">
+        <AblyPubSub />
+        <p>Hello</p>
+      </ChannelProvider>
+    </AblyProvider>
   );
 }
 
-export default App;
+function AblyPubSub() {
+  const [messages, setMessages] = useState([]);
+
+  useConnectionStateListener("connected", () => {
+    console.log("Connected to Ably!");
+  });
+
+  // Create a channel called 'get-started' and subscribe to all messages with the name 'first' using the useChannel hook
+  const { channel } = useChannel("get-started", "first", (message) => {
+    setMessages((previousMessages) => [...previousMessages, message]);
+  });
+
+  return (
+    // Publish a message with the name 'first' and the contents 'Here is my first message!' when the 'Publish' button is clicked
+    <div>
+      <button
+        onClick={() => {
+          channel.publish("first", "Here is my first message!");
+        }}
+      >
+        Publish
+      </button>
+      {messages.map((message) => {
+        return <p key={message.id}>{message.data}</p>;
+      })}
+    </div>
+  );
+}

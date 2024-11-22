@@ -1,4 +1,11 @@
 const { ApolloServer, gql } = require("apollo-server-lambda");
+const Ably = require("ably");
+
+// Ініціалізація Ably
+const ably = new Ably.Realtime(
+  "muB2gA.bsOjzQ:4VtEHW9Y1mutqM7CADDsYqVPzEbaOl8lv9LWoLdSQ-c"
+);
+const channel = ably.channels.get("apollo-updates");
 
 const typeDefs = gql`
   type Query {
@@ -11,12 +18,22 @@ const typeDefs = gql`
 const resolvers = {
   Query: {
     greetings: (parent, args, context) => {
-      return `Привіт, ${args.name}!`;
+      const message2 = `Привіт, ${args.name}!`;
+
+      // Надсилання повідомлення через Ably
+      channel.publish("greetings", { message: message2 }, (err) => {
+        if (err) {
+          console.error("Помилка під час надсилання через Ably:", err);
+        }
+      });
+
+      return message2;
     },
     whoiam: () => {
       return "Я розробник гри";
     },
     just: () => {
+      channel.publish("just", { message: "Just2" });
       return "Just";
     },
   },
