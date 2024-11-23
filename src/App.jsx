@@ -13,7 +13,7 @@ import {
 import "./index.css";
 
 const client = new Ably.Realtime({
-  key: process.env.ABLY_API_KEY,
+  key: import.meta.env.VITE_ABLY_API_KEY,
 });
 
 export default function App() {
@@ -47,7 +47,7 @@ function AblyPubSub() {
           channel.publish("first", "Here is my first message!");
         }}
       >
-        Publish
+        Pub
       </button>
       {messages.map((message) => {
         return <p key={message.id}>{message.data}</p>;
