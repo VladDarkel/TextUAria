@@ -13,7 +13,7 @@ import {
 import "./index.css";
 
 const client = new Ably.Realtime({
-  key: import.meta.env.VITE_ABLY_API_KEY,
+  key: process.env.VITE_ABLY_API_KEY,
 });
 
 export default function App() {
