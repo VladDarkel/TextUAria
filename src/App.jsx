@@ -18,6 +18,7 @@ const App = () => {
     <div>
       <button onClick={handleLogin}>Log in with Google</button>
       <button onClick={handleLogout}>Log out</button>
+      <p>{supabase.toString()}</p>
     </div>
   );
 };
