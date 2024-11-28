@@ -4,6 +4,7 @@ import { supabase } from "./api/supabaseClient";
 import { Graph } from "graphlib";
 
 const App = () => {
+  const [graph, setGraph] = useState();
   const g = new Graph();
   g.setNode("A");
   g.setNode("B", { color: "red" });
@@ -11,6 +12,7 @@ const App = () => {
   g.setEdge("B", "C", { weight: 5 });
   console.log(g.nodes());
   console.log(g.edges());
+  setGraph(g.nodes());
 
   const [items, setItems] = useState([]);
 
@@ -44,6 +46,7 @@ const App = () => {
           <li key={item.id}>{item.name}</li>
         ))}
       </ul>
+      <p>{graph}</p>
     </div>
   );
 };
