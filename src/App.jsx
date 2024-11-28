@@ -1,8 +1,17 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { supabase } from "./api/supabaseClient";
+import { Graph } from "graphlib";
 
 const App = () => {
+  const g = new Graph();
+  g.setNode("A");
+  g.setNode("B", { color: "red" });
+  g.setEdge("A", "B"); // Ребро від A до B
+  g.setEdge("B", "C", { weight: 5 });
+  console.log(g.nodes());
+  console.log(g.edges());
+
   const [items, setItems] = useState([]);
 
   useEffect(() => {
