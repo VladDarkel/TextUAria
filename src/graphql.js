@@ -2,7 +2,7 @@ const { ApolloServer, gql } = require("apollo-server-lambda");
 const Ably = require("ably");
 
 // Ініціалізація Ably
-const ably = new Ably.Realtime(import.meta.env.VITE_ABLY_API_KEY);
+const ably = new Ably.Realtime(process.env.ABLY_API_KEY);
 const channel = ably.channels.get("apollo-updates");
 
 const typeDefs = gql`
