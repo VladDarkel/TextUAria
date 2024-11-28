@@ -1,8 +1,0 @@
-[build]
-command = "npm run build"
-functions = "src/"
-publish = "dist"
-[[redirects]]
-from = "/graphql"
-to = "/.netlify/functions/graphql"
-status = 200
