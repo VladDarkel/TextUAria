@@ -12,12 +12,12 @@ const App = () => {
   g.setEdge("B", "C", { weight: 5 });
   console.log(g.nodes());
   console.log(g.edges());
-  setGraph(g.nodes());
 
   const [items, setItems] = useState([]);
 
   useEffect(() => {
     getItems();
+    setGraph(g.nodes());
   }, []);
 
   async function getItems() {
