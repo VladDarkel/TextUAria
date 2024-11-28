@@ -1,16 +1,25 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import React from "react";
+import { supabase } from "./api/supabaseClient";
 
-function App() {
-  const [count, setCount] = useState(0);
+const App = () => {
+  const handleLogin = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+    });
+    if (error) console.error("Error logging in:", error.message);
+  };
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) console.error("Error logging out:", error.message);
+  };
 
   return (
-    <>
-      <p>Hello</p>
-    </>
+    <div>
+      <button onClick={handleLogin}>Log in with Google</button>
+      <button onClick={handleLogout}>Log out</button>
+    </div>
   );
-}
+};
 
 export default App;
