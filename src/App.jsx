@@ -11,7 +11,7 @@ const App = () => {
 
   async function getItems() {
     const { data } = await supabase.from("Items").select();
-    setCountries(data);
+    setItems(data);
   }
 
   const handleLogin = async () => {
