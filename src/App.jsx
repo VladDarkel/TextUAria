@@ -1,7 +1,19 @@
 import React from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "./api/supabaseClient";
 
 const App = () => {
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    getItems();
+  }, []);
+
+  async function getItems() {
+    const { data } = await supabase.from("Items").select();
+    setCountries(data);
+  }
+
   const handleLogin = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
@@ -18,7 +30,11 @@ const App = () => {
     <div>
       <button onClick={handleLogin}>Log in with Google</button>
       <button onClick={handleLogout}>Log out</button>
-      <p>{JSON.stringify(supabase)}</p>
+      <ul>
+        {items.map((item) => (
+          <li key={item.id}>{item.name}</li>
+        ))}
+      </ul>
     </div>
   );
 };
