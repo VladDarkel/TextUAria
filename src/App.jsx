@@ -17,7 +17,7 @@ const App = () => {
 
   useEffect(() => {
     getItems();
-    setGraph(g.nodes());
+    setGraph([g.nodes(), g.edges()]);
   }, []);
 
   async function getItems() {
