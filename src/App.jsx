@@ -46,7 +46,7 @@ const App = () => {
           <li key={item.id}>{item.name}</li>
         ))}
       </ul>
-      <p>{graph}</p>
+      <p>{JSON.stringify(graph)}</p>
     </div>
   );
 };
