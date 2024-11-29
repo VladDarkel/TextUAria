@@ -4,21 +4,43 @@ import { supabase } from "./api/supabaseClient";
 import { Graph } from "graphlib";
 
 const App = () => {
-  const [graph, setGraph] = useState();
-  const g = new Graph();
-  g.setNode("A");
-  g.setNode("B", { color: "red" });
-  g.setEdge("A", "B"); // Ребро від A до B
-  g.setEdge("B", "C", { weight: 5 });
-  console.log(g.nodes());
-  console.log(g.edges());
-
   const [items, setItems] = useState([]);
 
   useEffect(() => {
     getItems();
-    setGraph([g.nodes(), g.edges()]);
   }, []);
+
+  // Підписка на зміни таблиці Items
+  const channel = supabase
+    .channel("realtime:items")
+    .on(
+      "postgres_changes",
+      { event: "*", schema: "public", table: "Items" },
+      (payload) => {
+        console.log("Change received!", payload);
+        handleRealtimeUpdate(payload);
+      }
+    )
+    .subscribe();
+
+  // Функція для обробки змін у режимі реального часу
+  function handleRealtimeUpdate(payload) {
+    const { eventType, new: newItem, old: oldItem } = payload;
+    setItems((currentItems) => {
+      switch (eventType) {
+        case "INSERT":
+          return [...currentItems, newItem];
+        case "UPDATE":
+          return currentItems.map((item) =>
+            item.id === newItem.id ? newItem : item
+          );
+        case "DELETE":
+          return currentItems.filter((item) => item.id !== oldItem.id);
+        default:
+          return currentItems;
+      }
+    });
+  }
 
   async function getItems() {
     const { data } = await supabase.from("Items").select();
@@ -49,7 +71,6 @@ const App = () => {
           <li key={item.id}>{item.name}</li>
         ))}
       </ul>
-      <p>{JSON.stringify(graph)}</p>
     </div>
   );
 };
